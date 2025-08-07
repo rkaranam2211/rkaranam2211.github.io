@@ -681,5 +681,41 @@
         window.open(`https://wa.me/12063493588?text=${message}`, '_blank');
     }
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const cards = Array.from(document.querySelectorAll('.card'));
+  const perPage = 8;
+  let currentPage = 1;
+
+  function renderPage(page) {
+    const start = (page - 1) * perPage;
+    const end = start + perPage;
+    cards.forEach((card, index) => {
+      card.style.display = index >= start && index < end ? 'block' : 'none';
+    });
+    document.getElementById('page-number').textContent = `Page ${page} of ${Math.ceil(cards.length / perPage)}`;
+  }
+
+  document.getElementById('next').addEventListener('click', () => {
+    if (currentPage * perPage < cards.length) {
+      currentPage++;
+      renderPage(currentPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
+  document.getElementById('prev').addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderPage(currentPage);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  });
+
+  renderPage(currentPage);
+});
+</script>
+
 </body>
 </html>
