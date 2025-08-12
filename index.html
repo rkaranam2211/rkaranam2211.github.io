@@ -6,8 +6,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Ghar cha Ganpati | Products</title>
-
-    <style>
+<style>
     body {
         font-family: 'Segoe UI', 'Poppins', sans-serif;
         background: linear-gradient(to bottom, #fff3e6, #fdecef);
@@ -141,9 +140,17 @@
             width: 300px;
             box-sizing: border-box;
         }
-    </style>
+    
+/* Availability helper styles */
+.card.sold-out {
+    opacity: 0.85;
+}
+.card.sold-out .order-btn {
+    display: none !important;
+}
+</style>
 <link href="https://fonts.googleapis.com/css2?family=Shrikhand&amp;family=Roboto&amp;display=swap" rel="stylesheet"/>
-    <style>
+<style>
     body {
         font-family: 'Segoe UI', 'Poppins', sans-serif;
         background: linear-gradient(to bottom, #fff3e6, #fdecef);
@@ -236,58 +243,101 @@
 <p style="margin-top: 20px; font-size: 16px; font-weight: bold; white-space: pre-line; color: #D4145A;">📞 Pre-Book Now
         DM us on Instagram @ghar_cha_ganpati or WhatsApp: +1-206-349-3588</p></header>
 <div style="text-align:center; margin-top: 20px;">
-  <button onclick="filterSize('12')" class="order-btn">12” Idols</button>
-  <button onclick="filterSize('14')" class="order-btn">14” Idols</button>
-  <button onclick="filterSize('17')" class="order-btn">17” Idols</button>
-  <button onclick="filterSize('all')" class="order-btn">Show All</button>
+<button class="order-btn" onclick="filterSize('12')">12” Idols</button>
+<button class="order-btn" onclick="filterSize('14')">14” Idols</button>
+<button class="order-btn" onclick="filterSize('17')">17” Idols</button>
+<button class="order-btn" onclick="filterSize('all')">Show All</button>
 </div>
-
 <div style="text-align:center; margin-top: 10px;">
-  <label for="clothFilter" style="font-weight:bold;">Filter 12” Idols by Cloth Type: </label>
-  <select id="clothFilter" onchange="filterByCloth()">
-    <option value="all">All 12” Idols</option>
-    <option value="original">With Original Cloth Dhoti and Shawl</option>
-    <option value="without">Without Original Cloth Dhoti and Shawl</option>
-  </select>
-</div>
-
+<label for="clothFilter" style="font-weight:bold;">Filter 12” Idols by Cloth Type: </label>
+<select id="clothFilter" onchange="filterByCloth()">
+<option value="all">All 12” Idols</option>
+<option value="original">With Original Cloth Dhoti and Shawl</option>
+<option value="without">Without Original Cloth Dhoti and Shawl</option>
+</select>
+<label for="availabilityFilter" style="font-weight:bold; margin-left: 12px;">Show: </label><select id="availabilityFilter" onchange="filterByAvailability()"><option value="all">All</option><option value="available">Available Only</option><option value="sold">Sold Out Only</option></select></div>
 <script>
-  function filterSize(size) {
+  var currentSize = 'all';
+  var currentCloth = 'all';
+  var currentAvailability = 'all';
+
+  function applyFilters() {
     const cards = document.querySelectorAll('.card');
-    document.getElementById('clothFilter').value = 'all'; // Reset cloth filter when main filter is applied
     cards.forEach(card => {
       const text = card.innerText || card.textContent;
-      if (size === 'all' || text.includes(size + '\u201d')) {
+      const is12Inch = /12”/.test(text);
+      const is14Inch = /14”/.test(text);
+      const is17Inch = /17”/.test(text);
+
+      // SIZE filter
+      let sizeMatch = false;
+      if (currentSize === 'all') {
+        sizeMatch = true;
+      } else if (currentSize === '12') {
+        sizeMatch = is12Inch;
+      } else if (currentSize === '14') {
+        sizeMatch = is14Inch;
+      } else if (currentSize === '17') {
+        sizeMatch = is17Inch;
+      }
+
+      // CLOTH filter (applies only to 12")
+      const hasOriginalCloth = /original cloth/i.test(text);
+      let clothMatch = true; // default when not filtering
+      if (currentCloth === 'original') {
+        clothMatch = (is12Inch && hasOriginalCloth);
+      } else if (currentCloth === 'without') {
+        clothMatch = (is12Inch && !hasOriginalCloth);
+      } else {
+        clothMatch = (currentCloth === 'all') ? true : true;
+      }
+
+      // AVAILABILITY filter
+      const isSold = card.classList.contains('sold-out') || /SOLD OUT/i.test(text);
+      let availabilityMatch = true;
+      if (currentAvailability === 'available') {
+        availabilityMatch = !isSold;
+      } else if (currentAvailability === 'sold') {
+        availabilityMatch = isSold;
+      }
+
+      // Final decision
+      if (sizeMatch && clothMatch && availabilityMatch) {
         card.style.display = 'block';
       } else {
         card.style.display = 'none';
       }
     });
+  }
+
+  function filterSize(size) {
+    currentSize = size;
+    document.getElementById('clothFilter').value = 'all'; // Reset cloth on size change
+    currentCloth = 'all';
+    applyFilters();
   }
 
   function filterByCloth() {
-    const value = document.getElementById('clothFilter').value;
-    const cards = document.querySelectorAll('.card');
-    cards.forEach(card => {
-      const text = card.innerText || card.textContent;
-      const is12Inch = text.includes('12”');
-      const hasOriginalCloth = /original cloth/i.test(text);
+    currentCloth = document.getElementById('clothFilter').value;
+    applyFilters();
+  }
 
-      if (value === 'original') {
-        card.style.display = (is12Inch && hasOriginalCloth) ? 'block' : 'none';
-      } else if (value === 'without') {
-        card.style.display = (is12Inch && !hasOriginalCloth) ? 'block' : 'none';
-      } else if (value === 'all' && is12Inch) {
-        card.style.display = 'block';
-      } else {
-        card.style.display = 'none';
+  function filterByAvailability() {
+    currentAvailability = document.getElementById('availabilityFilter').value;
+    applyFilters();
+  }
+
+  // Initialize: mark sold-out via text and apply filters once
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.card').forEach(card => {
+      if (/SOLD OUT/i.test(card.innerText || card.textContent)) {
+        card.classList.add('sold-out');
       }
     });
-  }
-</script>
-
-
-<div class="product-container"><div class="card">
+    applyFilters();
+  });
+    </script>
+<div class="product-container"><div class="sold-out card">
 <img alt="12” Om Kshipraprasadnaya Eco Friendly Idol with Jewelry work" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/24241263495485545_1" style="width:100%; border-radius: 8px;"/>
 <h3>12” Om Kshipraprasadnaya Eco Friendly Idol with Jewelry work</h3>
 <p><strong><strong>Description:</strong></strong> Get home Om Kshipraprasadnaya that is kshipra for your loved ones and you this Ganesh Chaturthi🙏🏻</p>
@@ -296,8 +346,7 @@
     <p><strong><strong>Color:</strong></strong> Gold dhoti, Magenta Pink shawl, Jewelry is a combination of gold and silver</p>
 <p><strong><strong>Special Feature:</strong></strong> The ornaments are bejeweled with intricate diamond work that even naked eyes can differentiate the karigari.</p>
 <p class="price"><strong>Now:</strong> $89.99 (Was: $119.99)</p>
-
-<br><span style="color:red;font-weight:bold;">SOLD OUT</span></div><div class="card">
+<br/><span style="color:red;font-weight:bold;">SOLD OUT</span></div><div class="card">
 <img alt="12” Ganadhaykshina Eco Friendly Bappa with Prabhal, Cloth draping,  Jewelry work" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/24102931009401363_1" style="width:100%; border-radius: 8px;"/>
 <h3>12” Ganadhaykshina Eco Friendly Bappa with Prabhal, Cloth draping,  Jewelry work</h3>
 <p><strong><strong>Description:</strong></strong> Ganadhaykshina - leader of all the celestial bodies abode at your home</p>
@@ -367,7 +416,7 @@
 <p><strong><strong>Special Feature:</strong></strong> The ornaments are bejeweled with intricate diamond work that even naked eyes can differentiate the karigari.</p>
 <p class="price"><strong>Now:</strong> $89.99 (Was: $119.99)</p>
 <button class="order-btn" onclick="orderNow('12” Nadapratithishta Eco Friendly Idol with hand painted design and Jewelry work')">Order Now</button>
-</div><div class="card">
+</div><div class="sold-out card">
 <img alt="12” Omkara Eco Friendly Idol with Jewelry Work" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/9625913560842693_1" style="width:100%; border-radius: 8px;"/>
 <h3>12” Omkara Eco Friendly Idol with Jewelry Work</h3>
 <p><strong><strong>Description:</strong></strong> Get home Omkara to bless you with light and shine in your and your loved ones life.</p>
@@ -376,8 +425,7 @@
     <p><strong>Color:</strong>  Hand painted Orange dhoti,  Magenta pink shawl</p>
 <p><strong><strong>Special Feature:</strong></strong> The ornaments are bejeweled with diamond work to give a beautiful enhancement in light.</p>
 <p class="price"><strong>Now:</strong> $89.99 (Was: $129.99)</p>
-
-<br><span style="color:red;font-weight:bold;">SOLD OUT</span></div><div class="card">
+<br/><span style="color:red;font-weight:bold;">SOLD OUT</span></div><div class="sold-out card">
 <img alt="12” Sarvasiddhantaya Eco Friendly Idol draped with Cloth dhoti shawl" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/10053727814753820_1" style="width:100%; border-radius: 8px;"/>
 <h3>12” Sarvasiddhantaya Eco Friendly Idol draped with Cloth dhoti shawl</h3>
 <p><strong><strong>Description:</strong></strong> Sarvasiddhantaya is here to bestow your home with wisdom and skills this Ganesh Chaturthi celebration.</p>
@@ -386,8 +434,7 @@
 <p><strong>Color:</strong>  Original Cloth White dhoti with beads lace and Dark Green cloth shawl</p>
 <p><strong><strong>Special Feature:</strong></strong> The carefully color combined original cloth draping with Bappa’s beautiful eyes is sure to take your heart in enigma</p>
 <p class="price"><strong>Now:</strong> $99.99 (Was: $139.99)</p>
-<button class="order-btn" onclick="orderNow('12” Sarvasiddhantaya Eco Friendly Idol draped with Cloth dhoti shawl')">Order Now</button>
-</div><div class="card">
+<br/><span style="color:red;font-weight:bold;">SOLD OUT</span></div><div class="card">
 <img alt="12” Umaputra Eco Friendly Idol" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/24365887659695749_1" style="width:100%; border-radius: 8px;"/>
 <h3>12” Umaputra Eco Friendly Idol</h3>
 <p><strong><strong>Description:</strong></strong> Most loved Uma putra blessing your home this Ganesh Chaturthi with laughter and shine ✨</p>
@@ -568,7 +615,7 @@
 <p><strong><strong>Special Feature:</strong></strong> The ornaments are bejeweled with diamond work to bring some glitter and gold together</p>
 <p class="price"><strong>Now:</strong> $89.99 (Was: $119.99)</p>
 <button class="order-btn" onclick="orderNow('12” Nideeshwaram eco friendly Bappa with Jewelry work')">Order Now</button>
-</div><div class="card">
+</div><div class="sold-out card">
 <img alt="12” Gajavakra Eco friendly with Jewelry work" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/8981959308595774_1" style="width:100%; border-radius: 8px;"/>
 <h3>12” Gajavakra Eco friendly with Jewelry work</h3>
 <p><strong><strong>Description:</strong></strong> Gajavakra Bappa with beautifully designed trunk and calm eyes</p>
@@ -577,8 +624,7 @@
 <p><strong><strong>Material:</strong></strong> Shadu Maati and Recycled Paper, Eco-Friendly, Non-toxic colors</p><p><strong>Color:</strong>  Hand painted block paint dhoti, Blue shawl</p>
 <p><strong><strong>Special Feature:</strong></strong> The dhoti color is one of a kind that is hand painted. The ornaments are bejeweled with diamond work to bring some glitter and gold together</p>
 <p class="price"><strong>Now:</strong> $89.99 (Was: $129.99)</p>
-<button class="order-btn" onclick="orderNow('12” Gajavakra Eco friendly with Jewelry work')">Order Now</button>
-</div><div class="card">
+<br/><span style="color:red;font-weight:bold;">SOLD OUT</span></div><div class="card">
 <img alt="Eco friendly 12” Kapila Ganpati with Jewelry work" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/23883286278040640_1" style="width:100%; border-radius: 8px;"/>
 <h3>Eco friendly 12” Kapila Ganpati with Jewelry work</h3>
 <p><strong><strong>Description:</strong></strong> Get home Kapila Ganpati to bless your home this Ganesh Chaturthi</p>
@@ -681,7 +727,6 @@
         window.open(`https://wa.me/12063493588?text=${message}`, '_blank');
     }
 </script>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const cards = Array.from(document.querySelectorAll('.card'));
@@ -716,6 +761,5 @@ document.addEventListener('DOMContentLoaded', function() {
   renderPage(currentPage);
 });
 </script>
-
 </body>
 </html>
