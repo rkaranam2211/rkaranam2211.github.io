@@ -230,6 +230,30 @@
     body, .card p {
         font-family: 'Roboto', sans-serif;
     }
+</style><style>
+/* SOLD OUT visual treatment (overlay + badge) */
+.card { position: relative; }
+.card.sold-out::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 12px;
+  pointer-events: none;
+}
+.badge.soldout {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: #c1121f;
+  color: #fff;
+  font-weight: 700;
+  font-size: .85rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  z-index: 2;
+}
 </style></head>
 <body>
 <header style="background-color: #FFF200; color: #4A235A; padding: 30px 20px; text-align: center;">
@@ -346,7 +370,7 @@
     <p><strong><strong>Color:</strong></strong> Gold dhoti, Magenta Pink shawl, Jewelry is a combination of gold and silver</p>
 <p><strong><strong>Special Feature:</strong></strong> The ornaments are bejeweled with intricate diamond work that even naked eyes can differentiate the karigari.</p>
 <p class="price"><strong>Now:</strong> $89.99 (Was: $119.99)</p>
-<br/><span style="color:red;font-weight:bold;">SOLD OUT</span></div><div class="card">
+<br/><span class="badge soldout">SOLD OUT</span></div><div class="card">
 <img alt="12” Ganadhaykshina Eco Friendly Bappa with Prabhal, Cloth draping,  Jewelry work" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/24102931009401363_1" style="width:100%; border-radius: 8px;"/>
 <h3>12” Ganadhaykshina Eco Friendly Bappa with Prabhal, Cloth draping,  Jewelry work</h3>
 <p><strong><strong>Description:</strong></strong> Ganadhaykshina - leader of all the celestial bodies abode at your home</p>
@@ -425,7 +449,7 @@
     <p><strong>Color:</strong>  Hand painted Orange dhoti,  Magenta pink shawl</p>
 <p><strong><strong>Special Feature:</strong></strong> The ornaments are bejeweled with diamond work to give a beautiful enhancement in light.</p>
 <p class="price"><strong>Now:</strong> $89.99 (Was: $129.99)</p>
-<br/><span style="color:red;font-weight:bold;">SOLD OUT</span></div><div class="sold-out card">
+<br/><span class="badge soldout">SOLD OUT</span></div><div class="sold-out card">
 <img alt="12” Sarvasiddhantaya Eco Friendly Idol draped with Cloth dhoti shawl" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/10053727814753820_1" style="width:100%; border-radius: 8px;"/>
 <h3>12” Sarvasiddhantaya Eco Friendly Idol draped with Cloth dhoti shawl</h3>
 <p><strong><strong>Description:</strong></strong> Sarvasiddhantaya is here to bestow your home with wisdom and skills this Ganesh Chaturthi celebration.</p>
@@ -434,7 +458,7 @@
 <p><strong>Color:</strong>  Original Cloth White dhoti with beads lace and Dark Green cloth shawl</p>
 <p><strong><strong>Special Feature:</strong></strong> The carefully color combined original cloth draping with Bappa’s beautiful eyes is sure to take your heart in enigma</p>
 <p class="price"><strong>Now:</strong> $99.99 (Was: $139.99)</p>
-<br/><span style="color:red;font-weight:bold;">SOLD OUT</span></div><div class="card">
+<br/><span class="badge soldout">SOLD OUT</span></div><div class="card">
 <img alt="12” Umaputra Eco Friendly Idol" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/24365887659695749_1" style="width:100%; border-radius: 8px;"/>
 <h3>12” Umaputra Eco Friendly Idol</h3>
 <p><strong><strong>Description:</strong></strong> Most loved Uma putra blessing your home this Ganesh Chaturthi with laughter and shine ✨</p>
@@ -514,7 +538,7 @@
 <p><strong><strong>Special Feature:</strong></strong> Original Cloth draping with pastel colors giving the idol a calm beautiful look.</p>
 <p class="price"><strong>Now:</strong> $99.99 (Was: $139.99)</p>
 <button class="order-btn" onclick="orderNow('12” Varaprada Eco Friendly Idol draped in Original Cloth Dhoti Shawl')">Order Now</button>
-</div><div class="card">
+</div><div class="card sold-out">
 <img alt="12” Sarvatman Eco Friendly Idol with jewelry work" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/9929972827112356_1" style="width:100%; border-radius: 8px;"/>
 <h3>12” Sarvatman Eco Friendly Idol with jewelry work</h3>
 <p><strong><strong>Description:</strong></strong> Sarvatman - Protector of your home this Ganesh Chaturthi 🙏🏻</p>
@@ -523,8 +547,7 @@
 <p><strong><strong>Material:</strong></strong> Shadu Maati and Recycled Paper, Eco-Friendly, Non-toxic colors</p><p><strong>Color:</strong>  Pastel Nude Orange dhoti, Marine green shawl.</p>
 <p><strong><strong>Special Feature:</strong></strong> The dhoti color is one of a kind color experimented with colors and experience. The ornaments are bejeweled with intricate designs in diamond work that any naked eyes can easily differentiate.</p>
 <p class="price"><strong>Now:</strong> $89.99 (Was: $119.99)</p>
-<button class="order-btn" onclick="orderNow('12” Sarvatman Eco Friendly Idol with jewelry work')">Order Now</button>
-</div><div class="card">
+<span class="badge soldout">SOLD OUT</span></div><div class="card">
 <img alt="12” Ekadanta Eco Friendly" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/8606489606141556_1" style="width:100%; border-radius: 8px;"/>
 <h3>12” Ekadanta Eco Friendly</h3>
 <p><strong><strong>Description:</strong></strong> Ekadantaya Namaha 🙏🏻 Vakratundaya Namaha 🙏🏻</p>
@@ -585,7 +608,7 @@
 <p><strong><strong>Special Feature:</strong></strong> One of a kind color that is influenced with experience</p>
 <p class="price"><strong>Now:</strong> $79.99 (Was: $109.99)</p>
 <button class="order-btn" onclick="orderNow('12” Haridra Eco Friendly Ganesha')">Order Now</button>
-</div><div class="card">
+</div><div class="card sold-out">
 <img alt="17” Feta Peshwai Sahib Vakratundaya Draped in Original Cloth Dhoti Shawl" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/23884852257803626_1" style="width:100%; border-radius: 8px;"/>
 <h3>17” Feta Peshwai Sahib Vakratundaya Draped in Original Cloth Dhoti Shawl</h3>
 <p><strong><strong>Description:</strong></strong> Get home our people’s choice Vakratundaya with Feta to shower blessings 🙏🏻</p>
@@ -594,8 +617,7 @@
 <p><strong>Color:</strong>  Orange Feta, Original Red Satin-like Cloth dhoti with heavy Pearl lace, Original Cloth Off-White shawl with Pearl lace</p>
 <p><strong><strong>Special Feature:</strong></strong> sculpted with Feta. The ornaments are bejeweled with diamond work to bring some glitter and gold together</p>
 <p class="price"><strong>Now:</strong> $139.99 (Was: $169.99)</p>
-<button class="order-btn" onclick="orderNow('17” Feta Peshwai Sahib Vakratundaya Draped in Original Cloth Dhoti Shawl')">Order Now</button>
-</div><div class="card">
+<span class="badge soldout">SOLD OUT</span></div><div class="card">
 <img alt="Eco friendly 12” Vinayaka Bappa with Prabhal and Jewelry work" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/24328946700069106_1" style="width:100%; border-radius: 8px;"/>
 <h3>Eco friendly 12” Vinayaka Bappa with Prabhal and Jewelry work</h3>
 <p><strong><strong>Description:</strong></strong> Get home Vinayaka - the one who has qualities to lead</p>
@@ -624,7 +646,7 @@
 <p><strong><strong>Material:</strong></strong> Shadu Maati and Recycled Paper, Eco-Friendly, Non-toxic colors</p><p><strong>Color:</strong>  Hand painted block paint dhoti, Blue shawl</p>
 <p><strong><strong>Special Feature:</strong></strong> The dhoti color is one of a kind that is hand painted. The ornaments are bejeweled with diamond work to bring some glitter and gold together</p>
 <p class="price"><strong>Now:</strong> $89.99 (Was: $129.99)</p>
-<br/><span style="color:red;font-weight:bold;">SOLD OUT</span></div><div class="card">
+<br/><span class="badge soldout">SOLD OUT</span></div><div class="card">
 <img alt="Eco friendly 12” Kapila Ganpati with Jewelry work" src="https://2chat-user-data.s3.amazonaws.com/w/p/12063493588/23883286278040640_1" style="width:100%; border-radius: 8px;"/>
 <h3>Eco friendly 12” Kapila Ganpati with Jewelry work</h3>
 <p><strong><strong>Description:</strong></strong> Get home Kapila Ganpati to bless your home this Ganesh Chaturthi</p>
